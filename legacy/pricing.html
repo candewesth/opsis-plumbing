@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planes de Precios - Opsis Plomería</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+            padding-top: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Sistema Selector */
+        .system-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .system-btn {
+            padding: 12px 24px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .system-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .system-btn.active {
+            background: white;
+            color: #667eea;
+            border-color: white;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Main Layout */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 50px;
+            align-items: start;
+        }
+
+        /* Pricing Cards */
+        .pricing-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .pricing-card.featured {
+            border: 2px solid #667eea;
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured::before {
+            content: "POPULAR";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .plan-price {
+            font-size: 2.5rem;
+            color: #667eea;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .plan-price span {
+            font-size: 1rem;
+            color: #999;
+        }
+
+        .plan-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        .plan-features li {
+            padding: 8px 0;
+            color: #555;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .plan-features li::before {
+            content: "✓";
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .plan-features li.disabled {
+            opacity: 0.5;
+            text-decoration: line-through;
+        }
+
+        .plan-features li.disabled::before {
+            content: "✗";
+            color: #ddd;
+        }
+
+        .cta-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        /* GPS Map Section */
+        .gps-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .gps-section h3 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .gps-section p {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        #map {
+            width: 100%;
+            height: 400px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 2px solid #eee;
+        }
+
+        .gps-info {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .vehicle-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .vehicle-item:last-child {
+            border-bottom: none;
+        }
+
+        .vehicle-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .vehicle-status {
+            display: inline-block;
+            padding: 3px 10px;
+            background: #d4edda;
+            color: #155724;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .vehicle-status.inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .gps-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .feature-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px;
+            background: #e7f3ff;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #0066cc;
+        }
+
+        .feature-badge::before {
+            content: "★";
+            font-size: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            #map {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .pricing-section {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+
+            .gps-features {
+                grid-template-columns: 1fr;
+            }
+
+            .system-btn {
+                font-size: 0.9rem;
+                padding: 10px 18px;
+            }
+        }
+
+        /* Live Badge Animation */
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            animation: pulse 1.5s infinite;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #28a745;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Leaflet Marker Customization */
+        .custom-marker {
+            background: white;
+            border: 3px solid #667eea;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>Planes de Precios</h1>
+            <p class="subtitle">Elige el plan perfecto para tu negocio de plomería</p>
+        </header>
+
+        <!-- System Selector -->
+        <div class="system-selector">
+            <button class="system-btn active" onclick="selectSystem('plumbing')">🔧 Plomería</button>
+            <button class="system-btn" onclick="selectSystem('landscape')">🌿 Jardinería</button>
+            <button class="system-btn" onclick="selectSystem('logistic')">📦 Logística</button>
+            <button class="system-btn" onclick="selectSystem('moving')">🚚 Mudanza</button>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="main-grid">
+            <!-- Pricing Cards -->
+            <div>
+                <div class="pricing-section" id="pricingContainer"></div>
+            </div>
+
+            <!-- GPS Tracking Map -->
+            <div>
+                <div class="gps-section">
+                    <h3>🗺️ Rastreo en Tiempo Real</h3>
+                    <p>Monitorea la ubicación de tus equipos en vivo con actualización cada 2 segundos</p>
+                    
+                    <div id="map"></div>
+
+                    <div class="gps-info">
+                        <h4 style="margin-bottom: 10px;">
+                            <span class="live-badge">
+                                <span class="live-dot"></span>
+                                Vehículos Activos
+                            </span>
+                        </h4>
+                        <div id="vehiclesPanel"></div>
+                    </div>
+
+                    <div style="margin-top: 15px;">
+                        <h4 style="margin-bottom: 10px; color: #333;">Características GPS:</h4>
+                        <div class="gps-features">
+                            <div class="feature-badge">Localización en Tiempo Real</div>
+                            <div class="feature-badge">Historial de Rutas</div>
+                            <div class="feature-badge">Alertas de Geofencing</div>
+                            <div class="feature-badge">Cálculo de ETAs</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+
+    <script>
+        // Pricing Data
+        const pricingData = {
+            plumbing: {
+                name: "Plomería",
+                plans: [
+                    {
+                        name: "Opal",
+                        price: 49,
+                        description: "Perfecto para empezar",
+                        featured: false,
+                        features: [
+                            { text: "Hasta 5 técnicos", included: true },
+                            { text: "Rastreo básico", included: true },
+                            { text: "Reportes diarios", included: false },
+                            { text: "Alertas avanzadas", included: false },
+                            { text: "API acceso", included: false },
+                            { text: "Soporte 24/7", included: false },
+                            { text: "Integración CRM", included: false },
+                            { text: "Análisis predictivos", included: false }
+                        ]
+                    },
+                    {
+                        name: "Sapphire",
+                        price: 129,
+                        description: "Para empresas medianas",
+                        featured: true,
+                        features: [
+                            { text: "Hasta 20 técnicos", included: true },
+                            { text: "Rastreo GPS avanzado", included: true },
+                            { text: "Reportes diarios", included: true },
+                            { text: "Alertas avanzadas", included: true },
+                            { text: "API acceso", included: true },
+                            { text: "Soporte 24/7", included: false },
+                            { text: "Integración CRM", included: false },
+                            { text: "Análisis predictivos", included: false }
+                        ]
+                    },
+                    {
+                        name: "Diamond",
+                        price: 299,
+                        description: "Solución empresarial completa",
+                        featured: false,
+                        features: [
+                            { text: "Técnicos ilimitados", included: true },
+                            { text: "Rastreo GPS avanzado", included: true },
+                            { text: "Reportes personalizados", included: true },
+                            { text: "Alertas avanzadas", included: true },
+                            { text: "API acceso completo", included: true },
+                            { text: "Soporte 24/7 dedicado", included: true },
+                            { text: "Integración CRM", included: true },
+                            { text: "Análisis predictivos", included: true }
+                        ]
+                    }
+                ]
+            },
+            landscape: {
+                name: "Jardinería",
+                plans: [
+                    {
+                        name: "Opal",
+                        price: 45,
+                        description: "Perfecto para empezar",
+                        featured: false,
+                        features: [
+                            { text: "Hasta 5 equipos", included: true },
+                            { text: "Rastreo básico", included: true },
+                            { text: "Reportes semanales", included: false },
+                            { text: "Alertas de zona", included: false },
+                            { text: "API acceso", included: false },
+                            { text: "Soporte por email", included: false },
+                            { text: "Integración agendas", included: false },
+                            { text: "Análisis de ruta", included: false }
+                        ]
+                    },
+                    {
+                        name: "Sapphire",
+                        price: 119,
+                        description: "Para empresas medianas",
+                        featured: true,
+                        features: [
+                            { text: "Hasta 20 equipos", included: true },
+                            { text: "Rastreo GPS avanzado", included: true },
+                            { text: "Reportes semanales", included: true },
+                            { text: "Alertas de zona", included: true },
+                            { text: "API acceso", included: true },
+                            { text: "Soporte por email", included: false },
+                            { text: "Integración agendas", included: false },
+                            { text: "Análisis de ruta", included: false }
+                        ]
+                    },
+                    {
+                        name: "Diamond",
+                        price: 279,
+                        description: "Solución empresarial completa",
+                        featured: false,
+                        features: [
+                            { text: "Equipos ilimitados", included: true },
+                            { text: "Rastreo GPS avanzado", included: true },
+                            { text: "Reportes personalizados", included: true },
+                            { text: "Alertas de zona inteligentes", included: true },
+                            { text: "API acceso completo", included: true },
+                            { text: "Soporte 24/7 dedicado", included: true },
+                            { text: "Integración agendas", included: true },
+                            { text: "Análisis de ruta optimizado", included: true }
+                        ]
+                    }
+                ]
+            },
+            logistic: {
+                name: "Logística",
+                plans: [
+                    {
+                        name: "Opal",
+                        price: 59,
+                        description: "Perfecto para empezar",
+                        featured: false,
+                        features: [
+                            { text: "Hasta 10 vehículos", included: true },
+                            { text: "Rastreo básico", included: true },
+                            { text: "Reportes mensuales", included: false },
+                            { text: "Alertas de velocidad", included: false },
+                            { text: "API acceso", included: false },
+                            { text: "Soporte estándar", included: false },
+                            { text: "Integración ERP", included: false },
+                            { text: "Optimización de rutas", included: false }
+                        ]
+                    },
+                    {
+                        name: "Sapphire",
+                        price: 159,
+                        description: "Para empresas medianas",
+                        featured: true,
+                        features: [
+                            { text: "Hasta 50 vehículos", included: true },
+                            { text: "Rastreo GPS avanzado", included: true },
+                            { text: "Reportes mensuales", included: true },
+                            { text: "Alertas de velocidad", included: true },
+                            { text: "API acceso", included: true },
+                            { text: "Soporte estándar", included: false },
+                            { text: "Integración ERP", included: false },
+                            { text: "Optimización de rutas", included: false }
+                        ]
+                    },
+                    {
+                        name: "Diamond",
+                        price: 349,
+                        description: "Solución empresarial completa",
+                        featured: false,
+                        features: [
+                            { text: "Vehículos ilimitados", included: true },
+                            { text: "Rastreo GPS avanzado", included: true },
+                            { text: "Reportes en tiempo real", included: true },
+                            { text: "Alertas de velocidad y desempeño", included: true },
+                            { text: "API acceso completo", included: true },
+                            { text: "Soporte 24/7 dedicado", included: true },
+                            { text: "Integración ERP completa", included: true },
+                            { text: "Optimización de rutas IA", included: true }
+                        ]
+                    }
+                ]
+            },
+            moving: {
+                name: "Mudanza",
+                plans: [
+                    {
+                        name: "Opal",
+                        price: 55,
+                        description: "Perfecto para empezar",
+                        featured: false,
+                        features: [
+                            { text: "Hasta 8 camiones", included: true },
+                            { text: "Rastreo básico", included: true },
+                            { text: "Reportes de operaciones", included: false },
+                            { text: "Confirmación de entregas", included: false },
+                            { text: "API acceso", included: false },
+                            { text: "Soporte por teléfono", included: false },
+                            { text: "Integración facturación", included: false },
+                            { text: "Pruebas A/B de rutas", included: false }
+                        ]
+                    },
+                    {
+                        name: "Sapphire",
+                        price: 149,
+                        description: "Para empresas medianas",
+                        featured: true,
+                        features: [
+                            { text: "Hasta 30 camiones", included: true },
+                            { text: "Rastreo GPS avanzado", included: true },
+                            { text: "Reportes de operaciones", included: true },
+                            { text: "Confirmación de entregas", included: true },
+                            { text: "API acceso", included: true },
+                            { text: "Soporte por teléfono", included: false },
+                            { text: "Integración facturación", included: false },
+                            { text: "Pruebas A/B de rutas", included: false }
+                        ]
+                    },
+                    {
+                        name: "Diamond",
+                        price: 329,
+                        description: "Solución empresarial completa",
+                        featured: false,
+                        features: [
+                            { text: "Camiones ilimitados", included: true },
+                            { text: "Rastreo GPS avanzado", included: true },
+                            { text: "Reportes en tiempo real", included: true },
+                            { text: "Confirmación automática", included: true },
+                            { text: "API acceso completo", included: true },
+                            { text: "Soporte 24/7 dedicado", included: true },
+                            { text: "Integración facturación", included: true },
+                            { text: "Pruebas A/B de rutas", included: true }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        // Simulated vehicle locations and data
+        const vehicles = [
+            {
+                id: 1,
+                name: "Equipo A",
+                lat: 40.7128,
+                lng: -74.0060,
+                status: "En ruta",
+                speed: 35,
+                destination: "Calle Principal 123"
+            },
+            {
+                id: 2,
+                name: "Equipo B",
+                lat: 40.7200,
+                lng: -74.0100,
+                status: "En ruta",
+                speed: 28,
+                destination: "Avenida Central 456"
+            }
+        ];
+
+        let map;
+        let markers = [];
+        let currentSystem = 'plumbing';
+
+        // Initialize map
+        function initMap() {
+            map = L.map('map').setView([40.7160, -74.0080], 13);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors',
+                maxZoom: 19
+            }).addTo(map);
+
+            updateVehicles();
+            setInterval(updateVehicles, 2000); // Update every 2 seconds
+        }
+
+        // Update vehicle positions (simulate movement)
+        function updateVehicles() {
+            // Clear old markers
+            markers.forEach(marker => map.removeLayer(marker));
+            markers = [];
+
+            vehicles.forEach(vehicle => {
+                // Simulate slight movement
+                vehicle.lat += (Math.random() - 0.5) * 0.001;
+                vehicle.lng += (Math.random() - 0.5) * 0.001;
+                vehicle.speed = Math.floor(Math.random() * 50) + 15;
+
+                // Add marker
+                const markerHTML = `
+                    <div style="background: white; border: 3px solid #667eea; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);">
+                        🚗
+                    </div>
+                `;
+
+                const customIcon = L.divIcon({
+                    html: markerHTML,
+                    iconSize: [40, 40],
+                    className: 'custom-marker'
+                });
+
+                const marker = L.marker([vehicle.lat, vehicle.lng], { icon: customIcon })
+                    .bindPopup(`
+                        <div style="font-size: 0.9rem;">
+                            <strong>${vehicle.name}</strong><br>
+                            ${vehicle.status}<br>
+                            Velocidad: ${vehicle.speed} km/h<br>
+                            Destino: ${vehicle.destination}
+                        </div>
+                    `)
+                    .addTo(map);
+
+                markers.push(marker);
+            });
+
+            updateVehiclesPanel();
+        }
+
+        // Update vehicles panel
+        function updateVehiclesPanel() {
+            const panel = document.getElementById('vehiclesPanel');
+            panel.innerHTML = vehicles.map(vehicle => `
+                <div class="vehicle-item">
+                    <div>
+                        <div class="vehicle-name">${vehicle.name}</div>
+                        <small style="color: #666;">${vehicle.destination}</small>
+                    </div>
+                    <div style="text-align: right;">
+                        <div class="vehicle-status">${vehicle.speed} km/h</div>
+                        <small style="color: #666; display: block; margin-top: 3px;">${vehicle.status}</small>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Select system
+        function selectSystem(system) {
+            currentSystem = system;
+
+            // Update buttons
+            document.querySelectorAll('.system-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Render pricing cards
+            renderPricingCards();
+        }
+
+        // Render pricing cards
+        function renderPricingCards() {
+            const system = pricingData[currentSystem];
+            const container = document.getElementById('pricingContainer');
+
+            container.innerHTML = system.plans.map(plan => `
+                <div class="pricing-card ${plan.featured ? 'featured' : ''}">
+                    <div class="plan-name">${plan.name}</div>
+                    <div class="plan-price">$${plan.price}<span>/mes</span></div>
+                    <div class="plan-description">${plan.description}</div>
+                    <ul class="plan-features">
+                        ${plan.features.map(feature => `
+                            <li ${feature.included ? '' : 'class="disabled"'}>
+                                ${feature.text}
+                            </li>
+                        `).join('')}
+                    </ul>
+                    <button class="cta-btn" onclick="alert('Contáctanos para empezar con el plan ${plan.name}')">
+                        Elegir Plan
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            initMap();
+            renderPricingCards();
+        });
+    </script>
+</body>
+</html>
