@@ -363,6 +363,548 @@
             font-size: 1.2rem;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            font-size: 1.8rem;
+            color: #333;
+            margin: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.2s;
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+
+        .plan-selector {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .price-slider {
+            margin: 20px 0;
+        }
+
+        .slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #ddd;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .summary {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .summary-row.total {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #333;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+
+        .summary-row.total span:last-child {
+            color: #667eea;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .checkout-btn:active {
+            transform: translateY(0);
+        }
+
+        .success-message {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+
+        /* Solutions Section Styles */
+        .solutions-section {
+            background: white;
+            border-radius: 30px;
+            padding: 50px;
+            margin: 40px 0;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        }
+
+        .solutions-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .solutions-header h2 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .solutions-header p {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Value Propositions Grid */
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .value-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            border-radius: 20px;
+            padding: 35px;
+            border: 2px solid #f0f0f0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .value-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .value-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+
+        .value-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .value-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .value-card h3 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .value-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .value-metric {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            display: inline-block;
+            font-size: 0.95rem;
+        }
+
+        /* Benefits Section */
+        .benefits-section {
+            margin-bottom: 60px;
+        }
+
+        .benefits-section h3 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .benefit-item {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .benefit-item:hover {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            transform: translateX(5px);
+        }
+
+        .benefit-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .benefit-content h4 {
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .benefit-content p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Use Cases Section */
+        .use-cases-section {
+            margin-bottom: 60px;
+        }
+
+        .use-cases-section h3 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .use-case-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 40px;
+            color: white;
+            margin-bottom: 25px;
+        }
+
+        .use-case-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .use-case-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .use-case-info h4 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .use-case-info p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .use-case-story {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .use-case-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .result-stat {
+            text-align: center;
+        }
+
+        .result-stat .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .result-stat .label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* CTA Section */
+        .solutions-cta {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-radius: 20px;
+        }
+
+        .solutions-cta h3 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .solutions-cta p {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-btn {
+            padding: 15px 35px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .cta-btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .cta-btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .cta-btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* System-specific content */
+        .solutions-content {
+            display: none;
+        }
+
+        .solutions-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .solutions-section {
+                padding: 30px 20px;
+            }
+
+            .solutions-header h2 {
+                font-size: 2rem;
+            }
+
+            .value-grid,
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .use-case-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .use-case-results {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .cta-btn {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -379,6 +921,505 @@
             <button class="system-btn" onclick="selectSystem('landscape')">🌿 Jardinería</button>
             <button class="system-btn" onclick="selectSystem('logistic')">📦 Logística</button>
             <button class="system-btn" onclick="selectSystem('moving')">🚚 Mudanza</button>
+        </div>
+
+        <!-- Solutions Section -->
+        <div class="solutions-section">
+            <!-- Plumbing Solutions -->
+            <div class="solutions-content active" data-system="plumbing">
+                <div class="solutions-header">
+                    <h2>🔧 Soluciones para Empresas de Plomería</h2>
+                    <p>Optimiza tus operaciones, maximiza el control y multiplica tu tiempo de administración con tecnología diseñada específicamente para tu negocio</p>
+                </div>
+
+                <!-- Value Propositions -->
+                <div class="value-grid">
+                    <div class="value-card">
+                        <span class="value-icon">⚡</span>
+                        <h3>Respuesta Rápida</h3>
+                        <p>Reduce el tiempo de respuesta a emergencias de plomería con despacho inteligente y ubicación en tiempo real de tus técnicos.</p>
+                        <span class="value-metric">-45% tiempo respuesta</span>
+                    </div>
+                    <div class="value-card">
+                        <span class="value-icon">📊</span>
+                        <h3>Control Total</h3>
+                        <p>Visibilidad completa de todas tus órdenes de trabajo, inventario de materiales y desempeño de técnicos desde un solo panel.</p>
+                        <span class="value-metric">+60% eficiencia operativa</span>
+                    </div>
+                    <div class="value-card">
+                        <span class="value-icon">💰</span>
+                        <h3>Mayor Rentabilidad</h3>
+                        <p>Optimiza rutas, reduce combustible y aumenta el número de servicios completados por día con IA de planificación.</p>
+                        <span class="value-metric">+35% servicios/día</span>
+                    </div>
+                    <div class="value-card">
+                        <span class="value-icon">🎯</span>
+                        <h3>Satisfacción Cliente</h3>
+                        <p>Proporciona ETAs precisos, notificaciones automáticas y seguimiento en vivo para mejorar la experiencia del cliente.</p>
+                        <span class="value-metric">98% satisfacción</span>
+                    </div>
+                </div>
+
+                <!-- Key Benefits -->
+                <div class="benefits-section">
+                    <h3>Beneficios Clave para Tu Negocio</h3>
+                    <div class="benefits-grid">
+                        <div class="benefit-item">
+                            <span class="benefit-icon">🗺️</span>
+                            <div class="benefit-content">
+                                <h4>Despacho Inteligente</h4>
+                                <p>Asigna automáticamente el técnico más cercano basado en ubicación, habilidades y disponibilidad</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon">📱</span>
+                            <div class="benefit-content">
+                                <h4>App Móvil para Técnicos</h4>
+                                <p>Órdenes de trabajo, navegación, captura de fotos y firmas digitales en una sola app</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon">🔧</span>
+                            <div class="benefit-content">
+                                <h4>Gestión de Inventario</h4>
+                                <p>Control de stock en tiempo real, alertas de reabastecimiento y seguimiento por camión</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon">💳</span>
+                            <div class="benefit-content">
+                                <h4>Facturación Automática</h4>
+                                <p>Genera facturas al instante al completar servicios con materiales y mano de obra incluidos</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon">📈</span>
+                            <div class="benefit-content">
+                                <h4>Reportes y Analytics</h4>
+                                <p>KPIs en tiempo real sobre rendimiento, costos y oportunidades de crecimiento</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon">👥</span>
+                            <div class="benefit-content">
+                                <h4>Portal de Clientes</h4>
+                                <p>Los clientes pueden agendar servicios, ver cotizaciones y rastrear técnicos en ruta</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Success Story -->
+                <div class="use-cases-section">
+                    <h3>Casos de Éxito</h3>
+                    <div class="use-case-card">
+                        <div class="use-case-header">
+                            <div class="use-case-avatar">🏢</div>
+                            <div class="use-case-info">
+                                <h4>AquaFix Plomería</h4>
+                                <p>Empresa mediana con 15 técnicos • Ciudad de México</p>
+                            </div>
+                        </div>
+                        <div class="use-case-story">
+                            <p>"Antes de Opsis, perdíamos 2-3 horas diarias coordinando técnicos por teléfono. Ahora todo es automático y podemos atender un 40% más de servicios al día. El ROI fue positivo en menos de 2 meses."</p>
+                            <p style="margin-top: 10px;"><em>— Carlos Mendoza, Director de Operaciones</em></p>
+                        </div>
+                        <div class="use-case-results">
+                            <div class="result-stat">
+                                <span class="number">+40%</span>
+                                <span class="label">Más servicios/día</span>
+                            </div>
+                            <div class="result-stat">
+                                <span class="number">-65%</span>
+                                <span class="label">Tiempo administrativo</span>
+                            </div>
+                            <div class="result-stat">
+                                <span class="number">$45k</span>
+                                <span class="label">Ahorro anual</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTA -->
+                <div class="solutions-cta">
+                    <h3>¿Listo para Transformar tu Negocio?</h3>
+                    <p>Únete a cientos de empresas de plomería que ya optimizan sus operaciones con Opsis</p>
+                    <div class="cta-buttons">
+                        <button class="cta-btn cta-btn-primary" onclick="scrollToPricing()">Ver Planes y Precios</button>
+                        <a href="https://wa.me/1234567890?text=Hola,%20quiero%20una%20demo%20de%20Opsis%20Plomería" class="cta-btn cta-btn-secondary" target="_blank">Solicitar Demo Gratis</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Landscaping Solutions -->
+            <div class="solutions-content" data-system="landscape">
+                <div class="solutions-header">
+                    <h2>🌿 Soluciones para Empresas de Jardinería</h2>
+                    <p>Gestiona rutas de mantenimiento, equipos móviles y clientes recurrentes con la plataforma diseñada para servicios de jardinería profesional</p>
+                </div>
+
+                <div class="value-grid">
+                    <div class="value-card">
+                        <span class="value-icon">🗓️</span>
+                        <h3>Rutas Optimizadas</h3>
+                        <p>Planifica rutas de mantenimiento eficientes para maximizar servicios por día y minimizar kilómetros recorridos.</p>
+                        <span class="value-metric">-30% combustible</span>
+                    </div>
+                    <div class="value-card">
+                        <span class="value-icon">♻️</span>
+                        <h3>Clientes Recurrentes</h3>
+                        <p>Automatiza la programación de mantenimientos periódicos semanales, quincenales o mensuales.</p>
+                        <span class="value-metric">+50% retención</span>
+                    </div>
+                    <div class="value-card">
+                        <span class="value-icon">🚜</span>
+                        <h3>Gestión de Equipos</h3>
+                        <p>Rastrea ubicación y uso de equipos costosos como cortadoras, sopladoras y herramientas especializadas.</p>
+                        <span class="value-metric">-20% pérdidas</span>
+                    </div>
+                    <div class="value-card">
+                        <span class="value-icon">📸</span>
+                        <h3>Evidencia Fotográfica</h3>
+                        <p>Captura fotos antes/después automáticamente geolocalizadas para mostrar el valor entregado.</p>
+                        <span class="value-metric">+85% renovación</span>
+                    </div>
+                </div>
+
+                <div class="benefits-section">
+                    <h3>Beneficios Clave para Tu Negocio</h3>
+                    <div class="benefits-grid">
+                        <div class="benefit-item">
+                            <span class="benefit-icon">📍</span>
+                            <div class="benefit-content">
+                                <h4>Zonas de Servicio</h4>
+                                <p>Define geofences para zonas de trabajo y recibe alertas cuando equipos entren/salgan</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon">⏰</span>
+                            <div class="benefit-content">
+                                <h4>Control de Tiempo</h4>
+                                <p>Registro automático de llegada/salida para facturación precisa por tiempo trabajado</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon">🌱</span>
+                            <div class="benefit-content">
+                                <h4>Catálogo de Servicios</h4>
+                                <p>Paquetes predefinidos: mantenimiento, poda, fertilización, diseño de jardines</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon">💵</span>
+                            <div class="benefit-content">
+                                <h4>Cotizaciones Rápidas</h4>
+                                <p>Genera cotizaciones in-situ con fotos del área y envío automático por email/WhatsApp</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon">☔</span>
+                            <div class="benefit-content">
+                                <h4>Alertas Climáticas</h4>
+                                <p>Integración con pronósticos para reprogramar automáticamente en caso de lluvia</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon">📊</span>
+                            <div class="benefit-content">
+                                <h4>Dashboard Ejecutivo</h4>
+                                <p>Visualiza áreas cubiertas, servicios completados y revenue por zona en mapas de calor</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="use-cases-section">
+                    <h3>Casos de Éxito</h3>
+                    <div class="use-case-card">
+                        <div class="use-case-header">
+                            <div class="use-case-avatar">🌳</div>
+                            <div class="use-case-info">
+                                <h4>Verde Jardines</h4>
+                                <p>Empresa de jardinería con 12 equipos • Guadalajara</p>
+                            </div>
+                        </div>
+                        <div class="use-case-story">
+                            <p>"Gestionábamos 200+ propiedades con hojas de cálculo y perdíamos servicios constantemente. Opsis nos dio visibilidad total y ahora nuestros clientes reciben recordatorios automáticos. Las renovaciones subieron del 60% al 92%."</p>
+                            <p style="margin-top: 10px;"><em>— Ana López, Propietaria</em></p>
+                        </div>
+                        <div class="use-case-results">
+                            <div class="result-stat">
+                                <span class="number">+32%</span>
+                                <span class="label">Renovaciones</span>
+                            </div>
+                            <div class="result-stat">
+                                <span class="number">-40%</span>
+                                <span class="label">Servicios perdidos</span>
+                            </div>
+                            <div class="result-stat">
+                                <span class="number">$38k</span>
+                                <span class="label">Revenue adicional/año</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="solutions-cta">
+                    <h3>¿Listo para Hacer Crecer tu Negocio?</h3>
+                    <p>Profesionaliza tus servicios de jardinería con la plataforma líder en Latinoamérica</p>
+                    <div class="cta-buttons">
+                        <button class="cta-btn cta-btn-primary" onclick="scrollToPricing()">Ver Planes y Precios</button>
+                        <a href="https://wa.me/1234567890?text=Hola,%20quiero%20una%20demo%20de%20Opsis%20Jardinería" class="cta-btn cta-btn-secondary" target="_blank">Solicitar Demo Gratis</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Logistics Solutions -->
+            <div class="solutions-content" data-system="logistic">
+                <div class="solutions-header">
+                    <h2>📦 Soluciones para Empresas de Logística</h2>
+                    <p>Optimiza tu flota, reduce costos operativos y mejora tiempos de entrega con tecnología enterprise para logística de última milla</p>
+                </div>
+
+                <div class="value-grid">
+                    <div class="value-card">
+                        <span class="value-icon">🚚</span>
+                        <h3>Optimización de Rutas</h3>
+                        <p>Algoritmos de IA calculan las rutas más eficientes considerando tráfico, ventanas de entrega y capacidad del vehículo.</p>
+                        <span class="value-metric">-28% km recorridos</span>
+                    </div>
+                    <div class="value-card">
+                        <span class="value-icon">📍</span>
+                        <h3>Rastreo en Vivo</h3>
+                        <p>Ubicación de toda tu flota en tiempo real con historial de 12 meses y reportes de velocidad, paradas y consumo.</p>
+                        <span class="value-metric">+99% visibilidad</span>
+                    </div>
+                    <div class="value-card">
+                        <span class="value-icon">⏱️</span>
+                        <h3>Entregas Puntuales</h3>
+                        <p>ETAs dinámicos con precisión del 95%, notificaciones automáticas y confirmación con firma digital.</p>
+                        <span class="value-metric">95% on-time</span>
+                    </div>
+                    <div class="value-card">
+                        <span class="value-icon">💡</span>
+                        <h3>Analytics Avanzado</h3>
+                        <p>Identifica ineficiencias, predice mantenimiento y optimiza asignación de vehículos con machine learning.</p>
+                        <span class="value-metric">-22% costos operativos</span>
+                    </div>
+                </div>
+
+                <div class="benefits-section">
+                    <h3>Beneficios Clave para Tu Negocio</h3>
+                    <div class="benefits-grid">
+                        <div class="benefit-item">
+                            <span class="benefit-icon">🔋</span>
+                            <div class="benefit-content">
+                                <h4>Monitoreo de Combustible</h4>
+                                <p>Detecta consumos anormales, ralentí excesivo y optimiza eficiencia energética de flota</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon">🛡️</span>
+                            <div class="benefit-content">
+                                <h4>Seguridad y Compliance</h4>
+                                <p>Alertas de exceso de velocidad, desviación de ruta y geofencing para zonas peligrosas</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon">📦</span>
+                            <div class="benefit-content">
+                                <h4>Gestión de Paquetes</h4>
+                                <p>Escaneo de códigos, proof of delivery con foto/firma y actualizaciones en tiempo real</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon">🔧</span>
+                            <div class="benefit-content">
+                                <h4>Mantenimiento Predictivo</h4>
+                                <p>Alertas basadas en km, horas de uso y patrones de conducción para prevenir averías</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon">📞</span>
+                            <div class="benefit-content">
+                                <h4>Comunicación con Clientes</h4>
+                                <p>SMS/Email automáticos con link de rastreo y ETA actualizado cada 5 minutos</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon">🔗</span>
+                            <div class="benefit-content">
+                                <h4>Integración ERP/WMS</h4>
+                                <p>API REST para conectar con SAP, Oracle, o tu sistema de gestión de almacenes</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="use-cases-section">
+                    <h3>Casos de Éxito</h3>
+                    <div class="use-case-card">
+                        <div class="use-case-header">
+                            <div class="use-case-avatar">📦</div>
+                            <div class="use-case-info">
+                                <h4>Rápido Express</h4>
+                                <p>Logística última milla con 45 vehículos • Monterrey</p>
+                            </div>
+                        </div>
+                        <div class="use-case-story">
+                            <p>"Teníamos problemas serios con entregas retrasadas y clientes insatisfechos. Opsis nos dio visibilidad completa de la flota y ahora podemos optimizar rutas dinámicamente. Entregas a tiempo subieron de 75% a 96% en 3 meses."</p>
+                            <p style="margin-top: 10px;"><em>— Roberto Sánchez, Gerente de Operaciones</em></p>
+                        </div>
+                        <div class="use-case-results">
+                            <div class="result-stat">
+                                <span class="number">+21%</span>
+                                <span class="label">Entregas on-time</span>
+                            </div>
+                            <div class="result-stat">
+                                <span class="number">-32%</span>
+                                <span class="label">Costos combustible</span>
+                            </div>
+                            <div class="result-stat">
+                                <span class="number">$120k</span>
+                                <span class="label">Ahorro anual</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="solutions-cta">
+                    <h3>¿Listo para Optimizar tu Logística?</h3>
+                    <p>Únete a empresas líderes que ya transformaron su operación con Opsis</p>
+                    <div class="cta-buttons">
+                        <button class="cta-btn cta-btn-primary" onclick="scrollToPricing()">Ver Planes y Precios</button>
+                        <a href="https://wa.me/1234567890?text=Hola,%20quiero%20una%20demo%20de%20Opsis%20Logística" class="cta-btn cta-btn-secondary" target="_blank">Solicitar Demo Gratis</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Moving Solutions -->
+            <div class="solutions-content" data-system="moving">
+                <div class="solutions-header">
+                    <h2>🚚 Soluciones para Empresas de Mudanza</h2>
+                    <p>Coordina equipos, gestiona inventarios de mudanza y ofrece experiencia premium a tus clientes con tecnología especializada</p>
+                </div>
+
+                <div class="value-grid">
+                    <div class="value-card">
+                        <span class="value-icon">📋</span>
+                        <h3>Inventarios Digitales</h3>
+                        <p>Crea inventarios completos con fotos, categorías y estado de cada artículo directamente desde la app móvil.</p>
+                        <span class="value-metric">-70% reclamos</span>
+                    </div>
+                    <div class="value-card">
+                        <span class="value-icon">🗺️</span>
+                        <h3>Coordinación de Equipos</h3>
+                        <p>Asigna múltiples equipos a una mudanza, coordina llegadas y gestiona handoffs entre origen y destino.</p>
+                        <span class="value-metric">+45% eficiencia</span>
+                    </div>
+                    <div class="value-card">
+                        <span class="value-icon">💰</span>
+                        <h3>Cotizaciones Precisas</h3>
+                        <p>Calcula presupuestos basados en volumen, distancia, piso, elevator y servicios adicionales requeridos.</p>
+                        <span class="value-metric">+38% conversión</span>
+                    </div>
+                    <div class="value-card">
+                        <span class="value-icon">⭐</span>
+                        <h3>Experiencia Cliente</h3>
+                        <p>Portal donde clientes ven su mudanza en tiempo real, inventario digital y pueden aprobar cambios al instante.</p>
+                        <span class="value-metric">4.9★ rating promedio</span>
+                    </div>
+                </div>
+
+                <div class="benefits-section">
+                    <h3>Beneficios Clave para Tu Negocio</h3>
+                    <div class="benefits-grid">
+                        <div class="benefit-item">
+                            <span class="benefit-icon">📦</span>
+                            <div class="benefit-content">
+                                <h4>Gestión de Cajas</h4>
+                                <p>Etiquetado con QR, tracking por habitación y verificación automática al desempacar</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon">🏢</span>
+                            <div class="benefit-content">
+                                <h4>Mudanzas Corporativas</h4>
+                                <p>Gestión de múltiples empleados, aprobaciones de gerencia y reportes consolidados</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon">🔐</span>
+                            <div class="benefit-content">
+                                <h4>Artículos de Valor</h4>
+                                <p>Categorización especial para items de alto valor con seguro y tracking individual</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon">📅</span>
+                            <div class="benefit-content">
+                                <h4>Planificación de Capacidad</h4>
+                                <p>Calendario visual para optimizar uso de camiones y evitar conflictos de horarios</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon">💳</span>
+                            <div class="benefit-content">
+                                <h4>Pagos Flexibles</h4>
+                                <p>Acepta depósito inicial, pagos parciales y saldo final con links de pago seguros</p>
+                            </div>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon">📊</span>
+                            <div class="benefit-content">
+                                <h4>Reportes de Rendimiento</h4>
+                                <p>Analiza tiempos por tipo de mudanza, rentabilidad por cliente y productividad de equipo</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="use-cases-section">
+                    <h3>Casos de Éxito</h3>
+                    <div class="use-case-card">
+                        <div class="use-case-header">
+                            <div class="use-case-avatar">🏠</div>
+                            <div class="use-case-info">
+                                <h4>Mudanzas Rápidas</h4>
+                                <p>Empresa de mudanzas con 8 camiones • Puebla</p>
+                            </div>
+                        </div>
+                        <div class="use-case-story">
+                            <p>"Los reclamos por daños eran nuestro dolor de cabeza. Con Opsis implementamos inventarios fotográficos completos y ahora todo queda documentado. Los reclamos bajaron un 75% y la satisfacción de clientes es la mejor que hemos tenido."</p>
+                            <p style="margin-top: 10px;"><em>— Patricia Ramírez, Gerente General</em></p>
+                        </div>
+                        <div class="use-case-results">
+                            <div class="result-stat">
+                                <span class="number">-75%</span>
+                                <span class="label">Reclamos por daños</span>
+                            </div>
+                            <div class="result-stat">
+                                <span class="number">+52%</span>
+                                <span class="label">Referencias nuevas</span>
+                            </div>
+                            <div class="result-stat">
+                                <span class="number">4.9★</span>
+                                <span class="label">Rating Google</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="solutions-cta">
+                    <h3>¿Listo para Profesionalizar tus Mudanzas?</h3>
+                    <p>Ofrece un servicio premium que tus clientes amarán y recomendarán</p>
+                    <div class="cta-buttons">
+                        <button class="cta-btn cta-btn-primary" onclick="scrollToPricing()">Ver Planes y Precios</button>
+                        <a href="https://wa.me/1234567890?text=Hola,%20quiero%20una%20demo%20de%20Opsis%20Mudanzas" class="cta-btn cta-btn-secondary" target="_blank">Solicitar Demo Gratis</a>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Main Content Grid -->
@@ -416,6 +1457,76 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal-overlay" id="checkoutModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="modalTitle">Checkout</h2>
+                <button class="modal-close" onclick="closeCheckoutModal()">×</button>
+            </div>
+
+            <div class="plan-selector">
+                <div class="form-group">
+                    <label>Sistema:</label>
+                    <p id="selectedSystem" style="margin: 0; color: #667eea; font-weight: 600;"></p>
+                </div>
+                <div class="form-group">
+                    <label>Plan:</label>
+                    <p id="selectedPlan" style="margin: 0; color: #667eea; font-weight: 600;"></p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>¿Cuántos equipos/vehículos necesitas?</label>
+                <div class="price-slider">
+                    <input type="range" min="1" max="100" value="1" class="slider" id="quantitySlider" onchange="updateTotal()">
+                    <div style="text-align: center; margin-top: 10px; color: #667eea; font-weight: 600;">
+                        <span id="quantityDisplay">1</span> equipos
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Nombre completo *</label>
+                <input type="text" id="fullName" placeholder="Juan Pérez" required>
+            </div>
+
+            <div class="form-group">
+                <label>Email *</label>
+                <input type="email" id="email" placeholder="tu@email.com" required>
+            </div>
+
+            <div class="form-group">
+                <label>Teléfono *</label>
+                <input type="tel" id="phone" placeholder="+34 600 000 000" required>
+            </div>
+
+            <div class="summary">
+                <div class="summary-row">
+                    <span>Plan base:</span>
+                    <span>$<span id="basePrice">0</span>/mes</span>
+                </div>
+                <div class="summary-row">
+                    <span>Equipos: <span id="quantityInSummary">1</span></span>
+                    <span>× <span id="quantityMultiplier">1</span> = $<span id="subtotal">0</span></span>
+                </div>
+                <div class="summary-row">
+                    <span>Impuesto (21%):</span>
+                    <span>$<span id="tax">0</span></span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total mensual:</span>
+                    <span>$<span id="totalPrice">0</span></span>
+                </div>
+            </div>
+
+            <button class="checkout-btn" onclick="processCheckout()">Comenzar Suscripción</button>
+            <div class="success-message" id="successMessage">
+                ✓ ¡Suscripción creada exitosamente! Recibirás un email con los detalles.
             </div>
         </div>
     </div>
@@ -867,8 +1978,25 @@
             document.querySelectorAll('.system-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
 
+            // Update Solutions Section
+            document.querySelectorAll('.solutions-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            const solutionsContent = document.querySelector(`.solutions-content[data-system="${system}"]`);
+            if (solutionsContent) {
+                solutionsContent.classList.add('active');
+            }
+
             // Render pricing cards
             renderPricingCards();
+        }
+
+        // Smooth scroll to pricing section
+        function scrollToPricing() {
+            const pricingSection = document.querySelector('.main-grid');
+            if (pricingSection) {
+                pricingSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         }
 
         // Render pricing cards
@@ -888,7 +2016,7 @@
                             </li>
                         `).join('')}
                     </ul>
-                    <button class="cta-btn" onclick="alert('Contáctanos para empezar con el plan ${plan.name}')">
+                    <button class="cta-btn" onclick="openCheckoutModal('${system.name}', '${plan.name}', ${plan.price})">
                         Elegir Plan
                     </button>
                 </div>
@@ -899,7 +2027,111 @@
         window.addEventListener('DOMContentLoaded', () => {
             initMap();
             renderPricingCards();
+            setupCheckoutModal();
         });
+
+        // Checkout Modal Functions
+        let selectedPlanData = { system: '', plan: '', price: 0 };
+
+        function openCheckoutModal(system, plan, price) {
+            selectedPlanData = { system, plan, price };
+            
+            document.getElementById('modalTitle').textContent = `Suscribirse a ${plan}`;
+            document.getElementById('selectedSystem').textContent = system;
+            document.getElementById('selectedPlan').textContent = plan;
+            document.getElementById('basePrice').textContent = price;
+            document.getElementById('quantitySlider').value = 1;
+            
+            updateTotal();
+            document.getElementById('checkoutModal').classList.add('active');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkoutModal').classList.remove('active');
+            document.getElementById('successMessage').classList.remove('show');
+            resetForm();
+        }
+
+        function updateTotal() {
+            const quantity = parseInt(document.getElementById('quantitySlider').value) || 1;
+            const price = selectedPlanData.price;
+            
+            document.getElementById('quantityDisplay').textContent = quantity;
+            document.getElementById('quantityInSummary').textContent = quantity;
+            document.getElementById('quantityMultiplier').textContent = quantity;
+            
+            const subtotal = price * quantity;
+            const tax = subtotal * 0.21;
+            const total = subtotal + tax;
+            
+            document.getElementById('subtotal').textContent = subtotal.toFixed(2);
+            document.getElementById('tax').textContent = tax.toFixed(2);
+            document.getElementById('totalPrice').textContent = total.toFixed(2);
+        }
+
+        function processCheckout() {
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const quantity = parseInt(document.getElementById('quantitySlider').value);
+
+            // Validate form
+            if (!fullName || !email || !phone) {
+                alert('Por favor completa todos los campos');
+                return;
+            }
+
+            // Simulate saving to database
+            const subscription = {
+                id: 'SUB-' + Math.random().toString(36).substr(2, 9).toUpperCase(),
+                system: selectedPlanData.system,
+                plan: selectedPlanData.plan,
+                quantity: quantity,
+                price: selectedPlanData.price,
+                total: (selectedPlanData.price * quantity * 1.21).toFixed(2),
+                customer: {
+                    name: fullName,
+                    email: email,
+                    phone: phone
+                },
+                createdAt: new Date().toISOString()
+            };
+
+            // Log subscription (in a real app, this would be sent to a server/API)
+            console.log('New Subscription:', subscription);
+            
+            // Save to localStorage for demo
+            let subscriptions = JSON.parse(localStorage.getItem('opsisSubscriptions') || '[]');
+            subscriptions.push(subscription);
+            localStorage.setItem('opsisSubscriptions', JSON.stringify(subscriptions));
+
+            // Show success message
+            document.getElementById('successMessage').classList.add('show');
+            
+            // Reset form and close after 3 seconds
+            setTimeout(() => {
+                closeCheckoutModal();
+            }, 3000);
+        }
+
+        function resetForm() {
+            document.getElementById('fullName').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('phone').value = '';
+            document.getElementById('quantitySlider').value = 1;
+        }
+
+        function setupCheckoutModal() {
+            // Close modal when clicking outside
+            document.getElementById('checkoutModal').addEventListener('click', (e) => {
+                if (e.target.id === 'checkoutModal') {
+                    closeCheckoutModal();
+                }
+            });
+
+            // Update total on slider change
+            document.getElementById('quantitySlider').addEventListener('input', updateTotal);
+        }
     </script>
 </body>
 </html>
