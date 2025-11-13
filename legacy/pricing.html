@@ -241,13 +241,12 @@
         .vehicle-item {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
+            align-items: flex-start;
+            padding: 15px;
             border-bottom: 1px solid #eee;
-        }
-
-        .vehicle-item:last-child {
-            border-bottom: none;
+            background: #fafbfc;
+            border-radius: 8px;
+            margin-bottom: 10px;
         }
 
         .vehicle-name {
@@ -650,7 +649,16 @@
                 lng: -74.0060,
                 status: "En ruta",
                 speed: 35,
-                destination: "Calle Principal 123"
+                destination: "Calle Principal 123",
+                routeHistory: [],
+                stops: [
+                    { name: "Parada 1", lat: 40.7100, lng: -74.0050, completed: true },
+                    { name: "Parada 2", lat: 40.7140, lng: -74.0080, completed: false },
+                    { name: "Parada 3", lat: 40.7160, lng: -74.0120, completed: false }
+                ],
+                distance: 12.5,
+                time: "45 min",
+                alerts: []
             },
             {
                 id: 2,
@@ -659,12 +667,28 @@
                 lng: -74.0100,
                 status: "En ruta",
                 speed: 28,
-                destination: "Avenida Central 456"
+                destination: "Avenida Central 456",
+                routeHistory: [],
+                stops: [
+                    { name: "Parada 1", lat: 40.7180, lng: -74.0110, completed: true },
+                    { name: "Parada 2", lat: 40.7220, lng: -74.0090, completed: false }
+                ],
+                distance: 8.3,
+                time: "30 min",
+                alerts: []
             }
+        ];
+
+        // Geofencing zones (simulated safe zones/restricted areas)
+        const geofences = [
+            { lat: 40.7180, lng: -74.0090, radius: 0.002, name: "Zona Central", type: "safe" },
+            { lat: 40.7100, lng: -74.0050, radius: 0.0015, name: "Zona Restringida", type: "restricted" }
         ];
 
         let map;
         let markers = [];
+        let polylines = [];
+        let geofenceCircles = [];
         let currentSystem = 'plumbing';
 
         // Initialize map
@@ -676,23 +700,99 @@
                 maxZoom: 19
             }).addTo(map);
 
+            drawGeofences();
             updateVehicles();
             setInterval(updateVehicles, 2000); // Update every 2 seconds
         }
 
+        // Draw geofences on map
+        function drawGeofences() {
+            geofences.forEach(fence => {
+                const circle = L.circle([fence.lat, fence.lng], {
+                    radius: fence.radius * 111000, // Convert degrees to meters
+                    color: fence.type === 'safe' ? '#28a745' : '#dc3545',
+                    fillColor: fence.type === 'safe' ? '#28a745' : '#dc3545',
+                    fillOpacity: 0.15,
+                    weight: 2,
+                    dashArray: '5, 5'
+                }).bindPopup(`<strong>${fence.name}</strong><br>${fence.type === 'safe' ? '✓ Zona Segura' : '⚠️ Zona Restringida'}`).addTo(map);
+
+                geofenceCircles.push(circle);
+            });
+        }
+
+        // Check if vehicle is in geofence
+        function checkGeofences(vehicle) {
+            vehicle.alerts = [];
+            
+            geofences.forEach(fence => {
+                const distance = Math.sqrt(
+                    Math.pow((vehicle.lat - fence.lat) * 111, 2) +
+                    Math.pow((vehicle.lng - fence.lng) * 111, 2)
+                );
+                
+                if (distance < fence.radius * 111) {
+                    if (fence.type === 'restricted') {
+                        vehicle.alerts.push({ type: 'warning', message: `⚠️ ${fence.name}` });
+                    } else if (fence.type === 'safe') {
+                        vehicle.alerts.push({ type: 'success', message: `✓ ${fence.name}` });
+                    }
+                }
+            });
+        }
+
         // Update vehicle positions (simulate movement)
         function updateVehicles() {
+            // Clear old polylines (route history)
+            polylines.forEach(polyline => map.removeLayer(polyline));
+            polylines = [];
+
             // Clear old markers
             markers.forEach(marker => map.removeLayer(marker));
             markers = [];
 
             vehicles.forEach(vehicle => {
-                // Simulate slight movement
+                // Simulate movement
                 vehicle.lat += (Math.random() - 0.5) * 0.001;
                 vehicle.lng += (Math.random() - 0.5) * 0.001;
                 vehicle.speed = Math.floor(Math.random() * 50) + 15;
 
-                // Add marker
+                // Store route history
+                if (vehicle.routeHistory.length === 0 || 
+                    (Math.abs(vehicle.routeHistory[vehicle.routeHistory.length - 1][0] - vehicle.lat) > 0.0005)) {
+                    vehicle.routeHistory.push([vehicle.lat, vehicle.lng]);
+                    if (vehicle.routeHistory.length > 50) vehicle.routeHistory.shift();
+                }
+
+                // Check geofences
+                checkGeofences(vehicle);
+
+                // Draw route history
+                if (vehicle.routeHistory.length > 1) {
+                    const polyline = L.polyline(vehicle.routeHistory, {
+                        color: vehicle.id === 1 ? '#667eea' : '#764ba2',
+                        weight: 2,
+                        opacity: 0.6,
+                        dashArray: '5, 5'
+                    }).addTo(map);
+                    polylines.push(polyline);
+                }
+
+                // Draw stops
+                vehicle.stops.forEach(stop => {
+                    const stopMarker = L.circleMarker([stop.lat, stop.lng], {
+                        radius: 6,
+                        fillColor: stop.completed ? '#28a745' : '#ffc107',
+                        color: 'white',
+                        weight: 2,
+                        opacity: 1,
+                        fillOpacity: 0.8
+                    }).bindPopup(`<strong>${stop.name}</strong><br>${stop.completed ? '✓ Completado' : '⏳ Pendiente'}`).addTo(map);
+
+                    markers.push(stopMarker);
+                });
+
+                // Add vehicle marker
                 const markerHTML = `
                     <div style="background: white; border: 3px solid #667eea; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);">
                         🚗
@@ -727,9 +827,29 @@
             const panel = document.getElementById('vehiclesPanel');
             panel.innerHTML = vehicles.map(vehicle => `
                 <div class="vehicle-item">
-                    <div>
+                    <div style="flex: 1;">
                         <div class="vehicle-name">${vehicle.name}</div>
                         <small style="color: #666;">${vehicle.destination}</small>
+                        <div style="margin-top: 8px; font-size: 0.85rem; color: #555;">
+                            📊 ${vehicle.distance}km | ⏱️ ${vehicle.time}
+                        </div>
+                        ${vehicle.alerts.length > 0 ? `
+                            <div style="margin-top: 6px;">
+                                ${vehicle.alerts.map(alert => `
+                                    <small style="display: inline-block; padding: 3px 8px; background: ${alert.type === 'warning' ? '#fff3cd' : '#d4edda'}; color: ${alert.type === 'warning' ? '#856404' : '#155724'}; border-radius: 4px; margin-right: 4px;">
+                                        ${alert.message}
+                                    </small>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                        <div style="margin-top: 8px;">
+                            <small style="color: #999;">Paradas:</small>
+                            ${vehicle.stops.map(stop => `
+                                <small style="display: inline-block; margin-right: 8px; ${stop.completed ? 'text-decoration: line-through; color: #999;' : 'color: #333;'}">
+                                    ${stop.completed ? '✓' : '○'} ${stop.name}
+                                </small>
+                            `).join('')}
+                        </div>
                     </div>
                     <div style="text-align: right;">
                         <div class="vehicle-status">${vehicle.speed} km/h</div>
